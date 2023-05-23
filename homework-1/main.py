@@ -5,7 +5,7 @@ import psycopg2
 
 # таблица customers
 
-conn = psycopg2.connect(host="localhost", database="north", user="postgres", password="aktiv416384352")
+conn = psycopg2.connect(host="localhost", database="north", user="postgres", password="my password")
 cur = conn.cursor()
 with open('C:/Users/аа/PycharmProjects/postgres-homeworks/homework-1/north_data/customers_data.csv', 'r') as f:
     next(f)  # пропустить первую строку (заголовок)
