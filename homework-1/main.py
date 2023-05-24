@@ -1,3 +1,4 @@
+import os.path
 import psycopg2
 
 
@@ -5,16 +6,17 @@ import psycopg2
 
 # таблица customers
 
-conn = psycopg2.connect(host="localhost", database="north", user="postgres", password="my password")
+conn = psycopg2.connect(host="localhost", database="north", user="postgres", password="aktiv416384352")
 cur = conn.cursor()
-with open('C:/Users/аа/PycharmProjects/postgres-homeworks/homework-1/north_data/customers_data.csv', 'r') as f:
+
+with open(os.path.join('north_data', 'customers_data.csv'), 'r') as f:
     next(f)  # пропустить первую строку (заголовок)
     cur.copy_from(f, 'customers', sep=',')
 
 # таблица employees
 
 sql = "COPY %s FROM STDIN WITH CSV HEADER DELIMITER AS ','"
-with open('C:/Users/аа/PycharmProjects/postgres-homeworks/homework-1/north_data/employees_data.csv', 'r',
+with open(os.path.join('north_data', 'employees_data.csv'), 'r',
           encoding="UTF-8") as f:
     next(f)  # пропустить первую строку (заголовок)
     cur.execute("truncate " + 'employees' + ";")
@@ -22,7 +24,7 @@ with open('C:/Users/аа/PycharmProjects/postgres-homeworks/homework-1/north_dat
 
 # таблица orders
 
-with open('C:/Users/аа/PycharmProjects/postgres-homeworks/homework-1/north_data/orders_data.csv', 'r') as f:
+with open(os.path.join('north_data', 'orders_data.csv'), 'r') as f:
     next(f)  # пропустить первую строку (заголовок)
     cur.copy_from(f, 'orders', sep=',')
 
