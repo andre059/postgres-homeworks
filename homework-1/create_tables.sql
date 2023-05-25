@@ -24,3 +24,4 @@ CREATE TABLE orders
 	order_date DATE,
 	ship_city varchar(20) NOT NULL
 );
+
