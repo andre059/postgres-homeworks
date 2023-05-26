@@ -15,12 +15,16 @@ with open(os.path.join('north_data', 'customers_data.csv'), 'r') as f:
 
 # таблица employees
 
-sql = "COPY %s FROM STDIN WITH CSV HEADER DELIMITER AS ','"
-with open(os.path.join('north_data', 'employees_data.csv'), 'r',
-          encoding="UTF-8") as f:
+# sql = "COPY %s FROM STDIN WITH CSV HEADER DELIMITER AS ','"
+# with open(os.path.join('north_data', 'employees_data.csv'), 'r', encoding="UTF-8") as f:
+    # next(f)  # пропустить первую строку (заголовок)
+    # cur.execute("truncate " + 'employees' + ";")
+    # cur.copy_expert(sql=sql % 'employees', file=f)
+
+with open(os.path.join('north_data', 'employees_data.csv'), 'r', encoding="UTF-8") as f:
     next(f)  # пропустить первую строку (заголовок)
-    cur.execute("truncate " + 'employees' + ";")
-    cur.copy_expert(sql=sql % 'employees', file=f)
+    cur.execute("TRUNCATE employees RESTART IDENTITY CASCADE;")  # удаляем все записи из таблицы
+    cur.copy_expert(sql="COPY employees FROM STDIN WITH CSV HEADER DELIMITER AS ','", file=f)
 
 # таблица orders
 
