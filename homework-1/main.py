@@ -1,5 +1,6 @@
 import os.path
 import psycopg2
+import csv
 
 
 """Скрипт для заполнения данными таблиц в БД Postgres."""
@@ -15,16 +16,13 @@ with open(os.path.join('north_data', 'customers_data.csv'), 'r') as f:
 
 # таблица employees
 
-# sql = "COPY %s FROM STDIN WITH CSV HEADER DELIMITER AS ','"
-# with open(os.path.join('north_data', 'employees_data.csv'), 'r', encoding="UTF-8") as f:
-    # next(f)  # пропустить первую строку (заголовок)
-    # cur.execute("truncate " + 'employees' + ";")
-    # cur.copy_expert(sql=sql % 'employees', file=f)
-
-with open(os.path.join('north_data', 'employees_data.csv'), 'r', encoding="UTF-8") as f:
-    next(f)  # пропустить первую строку (заголовок)
-    cur.execute("TRUNCATE employees RESTART IDENTITY CASCADE;")  # удаляем все записи из таблицы
-    cur.copy_expert(sql="COPY employees FROM STDIN WITH CSV HEADER DELIMITER AS ','", file=f)
+with open(os.path.join('north_data', 'employees_data.csv'), 'r', encoding="UTF-8") as file:
+    reader = csv.reader(file)
+    next(reader)  # пропустить первую строку (заголовок)
+    for row in reader:
+        first_name, last_name, title, birth_date, notes = row
+        cur.execute("INSERT INTO employees (first_name, last_name, title, birth_date, notes) "
+                    "VALUES (%s, %s, %s, %s, %s)", (first_name, last_name, title, birth_date, notes))
 
 # таблица orders
 
