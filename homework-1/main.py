@@ -7,7 +7,7 @@ import csv
 
 # таблица customers
 
-conn = psycopg2.connect(host="localhost", database="north", user="postgres", password="aktiv416384352")
+conn = psycopg2.connect(host="localhost", database="north", user="postgres", password="пароль от БД")
 cur = conn.cursor()
 
 with open(os.path.join('north_data', 'customers_data.csv'), 'r') as f:
